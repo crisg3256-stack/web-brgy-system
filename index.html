@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barangay Portal Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
+  <style>
+    :root {
+      --primary: #1d5cff;
+      --primary-dark: #174bd1;
+      --light-blue: #eef6ff;
+      --dark: #0f172a;
+      --muted: #64748b;
+      --success: #078b3e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f8fafc;
+      color: var(--dark);
+    }
+
+    .navbar {
+      min-height: 72px;
+      box-shadow: 0 2px 15px rgba(15, 23, 42, 0.06);
+    }
+
+    .navbar-shell {
+      width: 100%;
+      max-width: none;
+      padding-left: 0.75rem;
+      padding-right: 0.75rem;
+    }
+
+    .brand-icon {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 1.35rem;
+    }
+
+    .brand-title {
+      font-weight: 800;
+      font-size: 1.15rem;
+      line-height: 1;
+    }
+
+    .brand-subtitle {
+      font-size: 0.72rem;
+      color: var(--muted);
+    }
+
+    .nav-link {
+      color: #334155;
+      font-weight: 600;
+      padding: 0.7rem 1rem !important;
+      border-radius: 0.75rem;
+    }
+
+    .nav-link.active,
+    .nav-link:hover {
+      background: #eff6ff;
+      color: var(--primary);
+    }
+
+    .login-btn {
+      border-radius: 0.75rem;
+      padding: 0.65rem 1.5rem;
+      font-weight: 700;
+    }
+
+    .hero {
+      min-height: 360px;
+      background: linear-gradient(135deg, #1d5cff, #1a43c8);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      padding: 5rem 1rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.2rem, 5vw, 4.1rem);
+      font-weight: 900;
+      letter-spacing: -0.04em;
+    }
+
+    .hero p {
+      max-width: 780px;
+      margin: 1.2rem auto 0;
+      font-size: clamp(1rem, 2vw, 1.25rem);
+      line-height: 1.65;
+      opacity: 0.95;
+    }
+
+    .hero-actions {
+      margin-top: 2.3rem;
+      display: flex;
+      justify-content: center;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+    }
+
+    .hero .btn {
+      min-width: 150px;
+      border-radius: 0.7rem;
+      padding: 0.9rem 1.5rem;
+      font-weight: 800;
+    }
+
+    .section {
+      padding: 4.5rem 0;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.35rem);
+      font-weight: 900;
+      text-align: center;
+      margin-bottom: 2.8rem;
+    }
+
+    .info-card,
+    .certificate-card {
+      background: #fff;
+      border: 1px solid #e8eef6;
+      border-radius: 1rem;
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.08);
+      transition: 0.25s ease;
+      height: 100%;
+    }
+
+    .info-card:hover,
+    .certificate-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.12);
+    }
+
+    .info-card {
+      padding: 2.2rem 1.5rem;
+      text-align: center;
+    }
+
+    .step-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      margin: 0 auto 1.25rem;
+      font-size: 1.65rem;
+    }
+
+    .step-icon.blue { background: #dbeafe; color: #2563eb; }
+    .step-icon.green { background: #dcfce7; color: #16a34a; }
+    .step-icon.purple { background: #f3e8ff; color: #9333ea; }
+
+    .info-card h3 {
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin-bottom: 0.9rem;
+    }
+
+    .info-card p {
+      color: #475569;
+      line-height: 1.55;
+      margin-bottom: 0;
+    }
+
+    .certificates-section {
+      background: var(--light-blue);
+    }
+
+    .certificate-card {
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 1.5rem;
+      cursor: pointer;
+    }
+
+    .certificate-card .emoji {
+      font-size: 2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .certificate-card h4 {
+      font-size: 1rem;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    .cta {
+      background: linear-gradient(135deg, #08a346, #057d34);
+      color: #fff;
+      text-align: center;
+      padding: 4.5rem 1rem;
+    }
+
+    .cta h2 {
+      font-weight: 900;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+    }
+
+    .cta p {
+      font-size: 1.15rem;
+      margin: 1.2rem 0 2rem;
+    }
+
+    .cta .btn {
+      border-radius: 0.75rem;
+      padding: 0.9rem 2rem;
+      font-weight: 800;
+      color: var(--success);
+    }
+
+    footer {
+      background: #fff;
+      text-align: center;
+      color: #334155;
+      padding: 2rem 1rem;
+      font-size: 0.95rem;
+    }
+
+    footer small {
+      display: block;
+      margin-top: 0.4rem;
+      color: #64748b;
+    }
+
+    @media (min-width: 1200px) {
+      .container-wide {
+        max-width: 1180px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        min-height: auto;
+        padding: 4rem 1rem;
+      }
+
+      .navbar-brand {
+        margin-right: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg bg-white sticky-top">
+    <div class="container-fluid navbar-shell">
+      <a class="navbar-brand d-flex align-items-center gap-3" href="#">
+        <span class="brand-icon"><i class="bi bi-building"></i></span>
+        <span>
+          <span class="brand-title d-block">Barangay Portal</span>
+          <span class="brand-subtitle d-block">Certificate Services</span>
+        </span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNav">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2 mt-3 mt-lg-0">
+          <li class="nav-item ms-lg-2"><a class="btn btn-primary login-btn" href="#login">Login</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="container container-wide">
+      <h1>Request Barangay Certificates Online</h1>
+      <p>Skip the lines and waiting time. Request your barangay certificates from the comfort of your home and get notified when they are ready for pickup.</p>
+      <div class="hero-actions">
+        <a href="brgy_request.html" class="btn btn-light text-primary">Request Now</a>
+        <a href="brgy_track.html" class="btn btn-outline-light">Track Request</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section bg-light" id="how-it-works">
+      <div class="container container-wide">
+        <h2 class="section-title">How It Works</h2>
+        <div class="row g-4 justify-content-center">
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="info-card">
+              <div class="step-icon blue"><i class="bi bi-file-earmark-text"></i></div>
+              <h3>1. Submit Request</h3>
+              <p>Fill out the online form with your information and upload a valid ID.</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="info-card">
+              <div class="step-icon green"><i class="bi bi-clipboard-check"></i></div>
+              <h3>2. Processing</h3>
+              <p>Our staff will review and process your request within 1–3 business days.</p>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 col-lg-4">
+            <div class="info-card">
+              <div class="step-icon purple"><i class="bi bi-bell"></i></div>
+              <h3>3. Get Notified</h3>
+              <p>Receive an email or SMS notification when your certificate is ready for pickup.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section certificates-section" id="request">
+      <div class="container container-wide">
+        <h2 class="section-title">Available Certificates</h2>
+        <div class="row g-4">
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="certificate-card"><div class="emoji">📋</div><h4>Barangay Clearance</h4></div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="certificate-card"><div class="emoji">🏠</div><h4>Certificate of Residency</h4></div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="certificate-card"><div class="emoji">💰</div><h4>Certificate of Indigency</h4></div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="certificate-card"><div class="emoji">🏢</div><h4>Business Permit</h4></div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="certificate-card"><div class="emoji">📝</div><h4>Community Tax Certificate</h4></div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="certificate-card"><div class="emoji">💳</div><h4>Cedula</h4></div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="certificate-card"><div class="emoji">⭐</div><h4>Certificate of Good Moral</h4></div>
+          </div>
+          <div class="col-12 col-sm-6 col-lg-3">
+            <div class="certificate-card"><div class="emoji">💼</div><h4>Certificate of Employment</h4></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta" id="track">
+      <div class="container container-wide">
+        <h2>Ready to Get Started?</h2>
+        <p>Submit your certificate request today and save time.</p>
+        <a href="brgy_request.html" class="btn btn-light">Start Your Request</a>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <p class="mb-0">© 2026 Barangay Service Portal. All rights reserved.</p>
+    <small>For assistance, contact your local barangay office.</small>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
