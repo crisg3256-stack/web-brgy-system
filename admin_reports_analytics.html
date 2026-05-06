@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Barangay Management System</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter, system-ui, sans-serif;background:#f4f6fc;color:#0f172a;font-size:14px}
+    .layout{display:flex;min-height:100vh}
+    .sidebar{width:250px;background:#fff;border-right:1px solid #e2e8f0;position:fixed;inset:0 auto 0 0;display:flex;flex-direction:column}
+    .brand{height:82px;display:flex;align-items:center;gap:14px;padding:0 24px;border-bottom:1px solid #e2e8f0}
+    .brand-icon{width:44px;height:44px;border-radius:50%;background:#2563ff;color:#fff;display:grid;place-items:center;font-size:20px}
+    .brand strong{font-size:15px;display:block}
+    .brand small{font-size:11px;color:#475569}
+    .side-menu{padding:24px 16px;flex:1}
+    .side-link{display:flex;align-items:center;gap:14px;height:48px;padding:0 16px;color:#334155;text-decoration:none;border-radius:12px;margin-bottom:10px;font-weight:600;transition:.2s}
+    .side-link i{font-size:18px;color:#475569}
+    .side-link.active{background:#eef4ff;color:#1d4ed8;box-shadow: inset 0 0 0 1px rgba(59,130,246,.15)}
+    .side-link.active i,.side-link:hover i{color:#1d4ed8}
+    .side-link:hover{color:#1d4ed8}
+    .sidebar-footer{border-top:1px solid #e2e8f0;padding:20px 16px 18px}
+    .user-box{display:flex;align-items:center;gap:12px;margin:0 8px 12px}
+    .user-avatar{width:36px;height:36px;border-radius:50%;background:#dbeafe;display:grid;place-items:center;color:#2563ff;font-size:18px}
+    .user-box strong{display:block;font-size:13px}
+    .user-box small{color:#64748b;font-size:11px}
+    .logout-side,.generate-btn{background:#dc2626;color:#fff;border:0;border-radius:12px;font-weight:700;height:44px;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:.2s;text-decoration:none}
+    .generate-btn{background:#2563ff;min-width:180px;padding:0 18px;margin-top:24px}
+    .logout-side:hover,.generate-btn:hover{opacity:.9}
+    .logout-side{width:100%}
+    .main{margin-left:250px;width:calc(100% - 250px)}
+    .topbar{height:72px;background:#fff;border-bottom:1px solid #e2e8f0;display:flex;align-items:center;justify-content:space-between;padding:0 30px;box-shadow:0 8px 24px rgba(15,23,42,.06);position:sticky;top:0;z-index:10}
+    .topbar h1{font-size:18px;font-weight:700;margin:0}
+    .content{padding:32px 38px 24px}
+    .page-title{margin-bottom:28px}
+    .page-title h2{font-size:32px;font-weight:800;margin:0 0 10px;letter-spacing:-.03em}
+    .page-title p{font-size:15px;color:#475569;margin:0}
+    .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;margin-bottom:28px}
+    .stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:18px;min-height:118px;padding:24px 26px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 10px 30px rgba(15,23,42,.06)}
+    .stat-title{color:#475569;font-size:13px;margin-bottom:10px}
+    .stat-value{font-size:32px;font-weight:800;line-height:1}
+    .stat-note,.stat-small{font-size:13px;margin-top:8px;color:#475569}
+    .stat-icon{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;font-size:20px}
+    .blue{background:#eff6ff;color:#2563ff}
+    .purple{background:#f3e8ff;color:#7c3aed}
+    .green{background:#ecfdf5;color:#059669}
+    .yellow{background:#fffbeb;color:#d97706}
+    .panel{background:#fff;border:1px solid #e5e7eb;border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.06)}
+    .panel-header{display:flex;align-items:center;justify-content:space-between;padding:24px 28px;border-bottom:1px solid #f8fafc}
+    .panel-body{padding:24px 28px}
+    .panel-body h5{font-size:17px;font-weight:700;margin:0 0 20px}
+    .analysis-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-bottom:22px}
+    .cert-row{margin-bottom:18px}
+    .cert-head{display:flex;justify-content:space-between;font-size:14px;font-weight:600;margin-bottom:8px}
+    .cert-head span:last-child{color:#475569;font-weight:400}
+    .progress{height:10px;background:#e2e8f0;border-radius:999px}
+    .progress-bar{background:#2563ff;border-radius:999px}
+    .status-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;font-size:15px;font-weight:600}
+    .status-left{display:flex;align-items:center;gap:12px}
+    .dot{width:12px;height:12px;border-radius:50%}
+    .orange{background:#f59e0b}
+    .dot-blue{background:#3b82f6}
+    .dot-green{background:#22c55e}
+    .gray{background:#94a3b8}
+    label{font-size:14px;font-weight:700;margin-bottom:8px}
+    .form-select,.form-control{height:46px;border:1px solid #cbd5e1;border-radius:14px}
+    .empty-text{color:#64748b;font-size:14px;margin:0}
+    @media(max-width:1100px){.stats{grid-template-columns:1fr 1fr}.analysis-grid{grid-template-columns:1fr}.sidebar{position:static;width:100%}.layout{display:block}.main{margin-left:0;width:100%}.content{padding:24px 20px 20px}}
+    @media(max-width:800px){.stats{grid-template-columns:1fr}.topbar{padding:0 20px}.content{padding:20px 18px 20px}}
+  </style>
+</head>
+
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-icon"><i class="bi bi-building"></i></div><div><strong>Admin Panel</strong><small>Barangay Portal</small></div></div>
+    <nav class="side-menu">
+      <a href="admin_Dashboard.html" class="side-link"><i class="bi bi-house-door"></i>Dashboard</a>
+      <a href="admin_request.html" class="side-link"><i class="bi bi-file-earmark-text"></i>Requests</a>
+      <a href="admin_reports_analytics.html" class="side-link active"><i class="bi bi-clipboard-data"></i>Reports</a>
+    </nav>
+    <div class="sidebar-footer"><div class="user-box"><div class="user-avatar"><i class="bi bi-person"></i></div><div><strong id="adminName">Admin User</strong><small id="adminStatus">Administrator</small></div></div><a href="brgy_login.html" class="logout-side"><i class="bi bi-box-arrow-right"></i>Logout</a></div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar"><h1>Barangay Management System</h1></header>
+
+    <section class="content">
+      <div class="page-title"><h2>Reports & Analytics</h2><p>Generate and view barangay activity reports</p></div>
+
+      <div class="stats" id="statsGrid"></div>
+
+      <div class="analysis-grid">
+        <div class="panel">
+          <div class="panel-body">
+            <h5>Most Requested Certificates</h5>
+            <div id="certificateList"></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-body">
+            <h5>Request Status Distribution</h5>
+            <div id="statusList"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-body">
+          <h5>Generate Report</h5>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <label for="reportTypeSelect">Report Type</label>
+              <select class="form-select" id="reportTypeSelect">
+                <option selected disabled>Select report type</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="dateRangeSelect">Date Range</label>
+              <select class="form-select" id="dateRangeSelect">
+                <option selected disabled>Select date range</option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="formatSelect">Format</label>
+              <select class="form-select" id="formatSelect">
+                <option selected disabled>Select format</option>
+              </select>
+            </div>
+          </div>
+          <button class="generate-btn" type="button">Generate Report</button>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<script>
+  const API_URL = '/api/admin/reports/';
+  const defaultData = {
+    admin: { name: 'Admin User', role: 'Administrator' },
+    stats: [
+      { title: 'This Month', value: '0', helper: '0 requests received', icon: 'requests' },
+      { title: 'Avg. Processing Time', value: '0', helper: 'days', icon: 'processing' },
+      { title: 'Satisfaction Rate', value: '0%', helper: '0 total feedback', icon: 'satisfaction' },
+      { title: 'Active Residents', value: '0', helper: 'registered users', icon: 'residents' }
+    ],
+    certificates: [
+      { name: 'Barangay Clearance', label: '0 requests', percent: 0 },
+      { name: 'Certificate of Residency', label: '0 requests', percent: 0 },
+      { name: 'Certificate of Indigency', label: '0 requests', percent: 0 },
+      { name: 'Business Permit', label: '0 requests', percent: 0 }
+    ],
+    statuses: [
+      { label: 'Pending', value: 0, color: 'pending' },
+      { label: 'Processing', value: 0, color: 'processing' },
+      { label: 'Ready to Claim', value: 0, color: 'ready' },
+      { label: 'Claimed', value: 0, color: 'claimed' }
+    ],
+    reportTypes: [],
+    dateRanges: [],
+    formats: []
+  };
+
+  const statIconClassMap = {
+    requests: ['blue', 'bi-file-earmark-text'],
+    processing: ['purple', 'bi-clock'],
+    satisfaction: ['green', 'bi-hand-thumbs-up'],
+    residents: ['yellow', 'bi-people']
+  };
+
+  const statusDotClassMap = {
+    pending: 'orange',
+    processing: 'dot-blue',
+    ready: 'dot-green',
+    claimed: 'gray'
+  };
+
+  function text(id, value) {
+    document.getElementById(id).textContent = value ?? '';
+  }
+
+  function renderStats(stats) {
+    const statsGrid = document.getElementById('statsGrid');
+    const statsToRender = stats.length ? stats : defaultData.stats;
+
+    statsGrid.innerHTML = statsToRender.map((stat) => {
+      const [iconBgClass, iconName] = statIconClassMap[stat.icon] || ['blue', 'bi-bar-chart'];
+      return `
+        <div class="stat-card">
+          <div>
+            <div class="stat-title">${stat.title}</div>
+            <div class="stat-value">${stat.value}</div>
+            <div class="stat-small">${stat.helper || ''}</div>
+          </div>
+          <div class="stat-icon ${iconBgClass}">
+            <i class="bi ${iconName}"></i>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderCertificates(certificates) {
+    const certificateList = document.getElementById('certificateList');
+    const items = certificates.length ? certificates : defaultData.certificates;
+
+    certificateList.innerHTML = items.map((certificate, index) => `
+      <div class="cert-row ${index === items.length - 1 ? 'mb-0' : ''}">
+        <div class="cert-head">
+          <span>${certificate.name}</span>
+          <span>${certificate.label}</span>
+        </div>
+        <div class="progress">
+          <div class="progress-bar" style="width:${certificate.percent}%;"></div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderStatuses(statuses) {
+    const statusList = document.getElementById('statusList');
+    const items = statuses.length ? statuses : defaultData.statuses;
+
+    statusList.innerHTML = items.map((status, index) => `
+      <div class="status-row ${index === items.length - 1 ? 'mb-0' : ''}">
+        <div class="status-left">
+          <span class="dot ${statusDotClassMap[status.color] || 'gray'}"></span>${status.label}
+        </div>
+        <span>${status.value}</span>
+      </div>
+    `).join('');
+  }
+
+  function populateSelect(selectId, options) {
+    const select = document.getElementById(selectId);
+    const items = options.length ? options : [{ value: '', label: 'No options yet' }];
+
+    items.forEach((option) => {
+      const optionElement = document.createElement('option');
+      optionElement.value = option.value;
+      optionElement.textContent = option.label;
+      select.appendChild(optionElement);
+    });
+  }
+
+  function applyData(data) {
+    text('adminName', data.admin?.name || defaultData.admin.name);
+    text('adminStatus', data.admin?.role || data.admin?.status || defaultData.admin.role);
+    renderStats(data.stats || []);
+    renderCertificates(data.certificates || []);
+    renderStatuses(data.statuses || []);
+    populateSelect('reportTypeSelect', data.reportTypes || []);
+    populateSelect('dateRangeSelect', data.dateRanges || []);
+    populateSelect('formatSelect', data.formats || []);
+  }
+
+  async function loadReports() {
+    try {
+      const response = await fetch(API_URL);
+      if (!response.ok) throw new Error('Failed to load reports');
+      const data = await response.json();
+      applyData(data);
+    } catch (error) {
+      applyData(window.reportAnalyticsData || defaultData);
+    }
+  }
+
+  loadReports();
+</script>
+</body>
+</html>

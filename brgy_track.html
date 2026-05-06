@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Your Request</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<style>
+  body{
+    margin:0;
+    font-family: Arial, sans-serif;
+    background:#f3f4f6;
+  }
+
+  .wrapper{
+    min-height:calc(100vh - 100px);
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:flex-start;
+    padding:40px 20px 0;
+  }
+
+  .page-back{
+    width:100%;
+    max-width:800px;
+    margin-bottom:18px;
+  }
+
+  .back-btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:96px;
+    padding:0.72rem 1rem;
+    border-radius:12px;
+    border:1px solid #bfdbfe;
+    background:#eff6ff;
+    color:#1d4ed8;
+    text-decoration:none;
+    font-size:14px;
+    font-weight:800;
+    letter-spacing:0.01em;
+    box-shadow:0 8px 18px rgba(37,99,235,0.12);
+    transition:0.2s ease;
+  }
+
+  .back-btn:hover{
+    color:#1e40af;
+    border-color:#93c5fd;
+    background:#dbeafe;
+  }
+
+  h1{
+    font-size:38px;
+    font-weight:800;
+    margin-bottom:10px;
+    color:#111827;
+  }
+
+  .subtitle{
+    color:#4b5563;
+    font-size:16px;
+    margin-bottom:30px;
+  }
+
+  .card-box{
+    width:100%;
+    max-width:800px;
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 10px 25px rgba(0,0,0,0.08);
+    padding:30px;
+  }
+
+  label{
+    font-weight:700;
+    margin-bottom:10px;
+    display:block;
+    color:#111827;
+  }
+
+  .form-control{
+    height:50px;
+    border-radius:10px;
+    border:1px solid #cbd5e1;
+    padding:0 15px;
+    font-size:14px;
+  }
+
+  .form-control:focus{
+    border-color:#2563eb;
+    box-shadow:0 0 0 0.2rem rgba(37,99,235,0.15);
+  }
+
+  .btn-track{
+    margin-top:25px;
+    width:100%;
+    height:50px;
+    border:none;
+    border-radius:10px;
+    background:linear-gradient(to right,#2563eb,#1d4ed8);
+    color:#fff;
+    font-weight:700;
+    font-size:16px;
+    box-shadow:0 6px 15px rgba(37,99,235,0.3);
+  }
+
+  footer{
+    height:100px;
+    background:#fff;
+    border-top:1px solid #e5e7eb;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    font-size:13px;
+    color:#374151;
+    margin-top:40px;
+  }
+
+  footer small{
+    display:block;
+    margin-top:5px;
+    font-size:12px;
+    color:#6b7280;
+  }
+
+  @media(max-width:600px){
+    h1{font-size:30px}
+    .card-box{padding:25px 20px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrapper">
+  <div class="page-back">
+    <a href="brgy_dashboard.html" class="back-btn">Back</a>
+  </div>
+
+  <h1>Track Your Request</h1>
+  <div class="subtitle">Enter your Request ID or email address to check your certificate status</div>
+
+  <div class="card-box">
+    <form>
+      <label>Request ID or Email Address</label>
+      <input type="text" class="form-control" placeholder="Enter Request ID (e.g., BRG-ABC123) or email">
+
+      <button class="btn-track">Track Request</button>
+    </form>
+  </div>
+</div>
+
+<footer>
+  <div>
+    © 2026 Barangay Service Portal. All rights reserved.
+    <small>For assistance, contact your local barangay office.</small>
+  </div>
+</footer>
+
+</body>
+</html>
